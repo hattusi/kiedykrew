@@ -1,0 +1,149 @@
+// KiedyKrew – Prisma schema
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum StationStatus {
+  ACTIVE
+  INACTIVE
+  TEST
+}
+
+enum DonationType {
+  WHOLE_BLOOD
+  PLASMA
+  PLATELETS
+  ERYTHROCYTES
+}
+
+enum BloodType {
+  A_PLUS
+  A_MINUS
+  B_PLUS
+  B_MINUS
+  AB_PLUS
+  AB_MINUS
+  O_PLUS
+  O_MINUS
+}
+
+enum DemandLevel {
+  CRITICAL
+  LOW
+  NORMAL
+  HIGH
+  SURPLUS
+}
+
+enum AdapterType {
+  MOCK
+  STATIC
+  MANUAL
+  HTML
+  JSON
+  BLOOD_DEMAND
+}
+
+enum LogStatus {
+  OK
+  ERROR
+  SKIPPED
+}
+
+model Station {
+  id                        String        @id @default(cuid())
+  name                      String
+  city                      String
+  region                    String
+  address                   String
+  latitude                  Float?
+  longitude                 Float?
+  phone                     String?
+  websiteUrl                String?
+  reservationUrl            String?
+  openingHours              Json?
+  supportsOnlineReservation Boolean       @default(false)
+  supportedDonationTypes    DonationType[]
+  status                    StationStatus @default(ACTIVE)
+  createdAt                 DateTime      @default(now())
+  updatedAt                 DateTime      @updatedAt
+
+  sources      Source[]
+  slots        Slot[]
+  bloodDemands BloodDemand[]
+
+  @@index([city])
+  @@index([region])
+  @@index([status])
+}
+
+model Source {
+  id          String      @id @default(cuid())
+  stationId   String
+  station     Station     @relation(fields: [stationId], references: [id], onDelete: Cascade)
+  adapterType AdapterType
+  config      Json?
+  isEnabled   Boolean     @default(true)
+  lastRunAt   DateTime?
+  lastStatus  LogStatus?
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+
+  logs Log[]
+
+  @@index([stationId])
+  @@index([adapterType])
+}
+
+model Slot {
+  id           String        @id @default(cuid())
+  stationId    String
+  station      Station       @relation(fields: [stationId], references: [id], onDelete: Cascade)
+  date         DateTime      @db.Date
+  startTime    String
+  endTime      String?
+  available    Boolean       @default(true)
+  donationType DonationType?
+  sourceId     String?
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+
+  @@index([stationId])
+  @@index([date])
+  @@index([stationId, date, available])
+}
+
+model BloodDemand {
+  id         String      @id @default(cuid())
+  stationId  String
+  station    Station     @relation(fields: [stationId], references: [id], onDelete: Cascade)
+  bloodType  BloodType
+  level      DemandLevel
+  note       String?
+  validUntil DateTime?
+  sourceId   String?
+  createdAt  DateTime    @default(now())
+  updatedAt  DateTime    @updatedAt
+
+  @@unique([stationId, bloodType])
+  @@index([stationId])
+}
+
+model Log {
+  id        String    @id @default(cuid())
+  sourceId  String
+  source    Source    @relation(fields: [sourceId], references: [id], onDelete: Cascade)
+  status    LogStatus
+  message   String?
+  details   Json?
+  duration  Int?
+  createdAt DateTime  @default(now())
+
+  @@index([sourceId])
+  @@index([createdAt])
+}
