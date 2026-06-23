@@ -1,13 +1,13 @@
-/**
- * BloodDemandAdapter – szkielet adaptera dla stron z zapotrzebowaniem na krew.
+﻿/**
+ * BloodDemandAdapter â€“ szkielet adaptera dla stron z zapotrzebowaniem na krew.
  *
- * Wiele RCKiK publikuje tabelę zapotrzebowania na krew na swojej stronie WWW.
+ * Wiele RCKiK publikuje tabelÄ™ zapotrzebowania na krew na swojej stronie WWW.
  * Ten adapter wyspecjalizowany jest w parsowaniu tej tabeli.
  *
  * Config shape (BloodDemandAdapterConfig):
- *   url         – strona z tabelą zapotrzebowania
- *   selector    – CSS selektor tabeli / wierszy (opcjonalny)
- *   stationCode – identyfikator stacji w systemie zewnętrznym (opcjonalny)
+ *   url         â€“ strona z tabelÄ… zapotrzebowania
+ *   selector    â€“ CSS selektor tabeli / wierszy (opcjonalny)
+ *   stationCode â€“ identyfikator stacji w systemie zewnÄ™trznym (opcjonalny)
  */
 import * as cheerio from "cheerio";
 import { BaseAdapter, type AdapterResult, type BloodDemandData } from "./base";
@@ -23,10 +23,10 @@ const BLOOD_TYPE_MAP: Record<string, BloodType> = {
 
 const LEVEL_KEYWORDS: Array<[string[], DemandLevel]> = [
   [["pilnie", "krytycz", "critical", "urgent"], "CRITICAL"],
-  [["nisk", "brak", "niedobór", "low"], "LOW"],
+  [["nisk", "brak", "niedobĂłr", "low"], "LOW"],
   [["normal", "normalne", "standard"], "NORMAL"],
   [["wysok", "high", "potrzeb"], "HIGH"],
-  [["nadmiar", "surplus", "dużo", "excess"], "SURPLUS"],
+  [["nadmiar", "surplus", "duĹĽo", "excess"], "SURPLUS"],
 ];
 
 function guessLevel(text: string): DemandLevel {
@@ -39,7 +39,7 @@ function guessLevel(text: string): DemandLevel {
 
 export class BloodDemandAdapter extends BaseAdapter {
   async run(config: Record<string, unknown>): Promise<AdapterResult> {
-    const cfg = config as BloodDemandAdapterConfig;
+    const cfg = config as unknown as BloodDemandAdapterConfig;
 
     if (!cfg.url) {
       return { error: "BloodDemandAdapter: brak URL" };
@@ -76,3 +76,4 @@ export class BloodDemandAdapter extends BaseAdapter {
     return { bloodDemands };
   }
 }
+
