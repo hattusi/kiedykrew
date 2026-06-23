@@ -77,3 +77,4 @@ export class BloodDemandAdapter extends BaseAdapter {
   }
 }
 
+

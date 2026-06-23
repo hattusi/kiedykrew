@@ -1,4 +1,4 @@
-import type { DonationType } from "@prisma/client";
+﻿import type { DonationType } from "@prisma/client";
 import { addDays } from "@/lib/utils";
 import { BaseAdapter, type AdapterResult, type SlotData } from "./base";
 import type { MockAdapterConfig } from "@/types";
@@ -8,7 +8,7 @@ const SLOT_TIMES = ["08:00","08:30","09:00","09:30","10:00","10:30","11:00","11:
 
 export class MockAdapter extends BaseAdapter {
   async run(config: Record<string, unknown>): Promise<AdapterResult> {
-    const cfg = config as MockAdapterConfig;
+    const cfg = config as unknown as MockAdapterConfig;
     const daysAhead = cfg.daysAhead ?? 14;
     const slotsPerDay = Math.min(cfg.slotsPerDay ?? 8, SLOT_TIMES.length);
     const donationType: DonationType = cfg.donationType ?? "WHOLE_BLOOD";
@@ -44,3 +44,4 @@ export class MockAdapter extends BaseAdapter {
     return { slots };
   }
 }
+

@@ -1,11 +1,11 @@
-/**
- * JsonAdapter – szkielet adaptera dla stacji udostępniających JSON API.
+﻿/**
+ * JsonAdapter â€“ szkielet adaptera dla stacji udostÄ™pniajÄ…cych JSON API.
  *
  * Config shape (JsonAdapterConfig):
- *   url            – endpoint JSON
- *   headers        – opcjonalne nagłówki (np. Authorization)
- *   slotsPath      – klucz w obiekcie JSON zawierający tablicę slotów
- *   bloodDemandsPath – klucz w obiekcie JSON zawierający zapotrzebowanie
+ *   url            â€“ endpoint JSON
+ *   headers        â€“ opcjonalne nagĹ‚Ăłwki (np. Authorization)
+ *   slotsPath      â€“ klucz w obiekcie JSON zawierajÄ…cy tablicÄ™ slotĂłw
+ *   bloodDemandsPath â€“ klucz w obiekcie JSON zawierajÄ…cy zapotrzebowanie
  */
 import { BaseAdapter, type AdapterResult, type SlotData, type BloodDemandData } from "./base";
 import type { JsonAdapterConfig } from "@/types";
@@ -13,7 +13,7 @@ import type { BloodType, DemandLevel, DonationType } from "@prisma/client";
 
 export class JsonAdapter extends BaseAdapter {
   async run(config: Record<string, unknown>): Promise<AdapterResult> {
-    const cfg = config as JsonAdapterConfig;
+    const cfg = config as unknown as JsonAdapterConfig;
 
     if (!cfg.url) {
       return { error: "JsonAdapter: brak URL w konfiguracji" };
@@ -40,7 +40,7 @@ export class JsonAdapter extends BaseAdapter {
     const slots: SlotData[] = [];
     const bloodDemands: BloodDemandData[] = [];
 
-    // ── Parse slots ───────────────────────────────────────────────────────────
+    // â”€â”€ Parse slots â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     if (cfg.slotsPath && data && typeof data === "object") {
       const rawSlots = getPath(data as Record<string, unknown>, cfg.slotsPath);
       if (Array.isArray(rawSlots)) {
@@ -57,7 +57,7 @@ export class JsonAdapter extends BaseAdapter {
       }
     }
 
-    // ── Parse blood demands ───────────────────────────────────────────────────
+    // â”€â”€ Parse blood demands â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     if (cfg.bloodDemandsPath && data && typeof data === "object") {
       const rawDemands = getPath(data as Record<string, unknown>, cfg.bloodDemandsPath);
       if (Array.isArray(rawDemands)) {
@@ -82,3 +82,4 @@ function getPath(obj: Record<string, unknown>, path: string): unknown {
     return undefined;
   }, obj);
 }
+

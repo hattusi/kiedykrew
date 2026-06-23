@@ -1,9 +1,9 @@
-import { BaseAdapter, type AdapterResult } from "./base";
+﻿import { BaseAdapter, type AdapterResult } from "./base";
 import type { StaticAdapterConfig } from "@/types";
 
 export class StaticAdapter extends BaseAdapter {
   async run(config: Record<string, unknown>): Promise<AdapterResult> {
-    const cfg = config as StaticAdapterConfig;
+    const cfg = config as unknown as StaticAdapterConfig;
 
     const slots = (cfg.slots ?? []).map((s) => ({
       date: new Date(s.date),
@@ -22,3 +22,4 @@ export class StaticAdapter extends BaseAdapter {
     return { slots, bloodDemands };
   }
 }
+

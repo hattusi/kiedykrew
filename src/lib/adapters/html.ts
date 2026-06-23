@@ -1,16 +1,16 @@
-/**
- * HtmlAdapter – szkielet scrapera HTML opartego na Cheerio.
+﻿/**
+ * HtmlAdapter â€“ szkielet scrapera HTML opartego na Cheerio.
  *
- * Adapter NIE jest uruchamiany automatycznie w MVP – wymaga ręcznej
- * konfiguracji selektorów CSS dla każdego źródła.
+ * Adapter NIE jest uruchamiany automatycznie w MVP â€“ wymaga rÄ™cznej
+ * konfiguracji selektorĂłw CSS dla kaĹĽdego ĹşrĂłdĹ‚a.
  *
  * Config shape (HtmlAdapterConfig):
- *   url            – adres strony do pobrania
- *   slotsSelector  – CSS selektor elementów ze slotami (opcjonalny)
- *   dateFormat     – format daty w atrybutach / tekście (opcjonalny)
+ *   url            â€“ adres strony do pobrania
+ *   slotsSelector  â€“ CSS selektor elementĂłw ze slotami (opcjonalny)
+ *   dateFormat     â€“ format daty w atrybutach / tekĹ›cie (opcjonalny)
  *
- * Parseowanie slotów i zapotrzebowania na krew wymaga implementacji
- * metod parseSlots() i parseBloodDemands() dla konkretnego źródła.
+ * Parseowanie slotĂłw i zapotrzebowania na krew wymaga implementacji
+ * metod parseSlots() i parseBloodDemands() dla konkretnego ĹşrĂłdĹ‚a.
  */
 import * as cheerio from "cheerio";
 import { BaseAdapter, type AdapterResult, type SlotData } from "./base";
@@ -18,7 +18,7 @@ import type { HtmlAdapterConfig } from "@/types";
 
 export class HtmlAdapter extends BaseAdapter {
   async run(config: Record<string, unknown>): Promise<AdapterResult> {
-    const cfg = config as HtmlAdapterConfig;
+    const cfg = config as unknown as HtmlAdapterConfig;
 
     if (!cfg.url) {
       return { error: "HtmlAdapter: brak URL w konfiguracji" };
@@ -35,7 +35,7 @@ export class HtmlAdapter extends BaseAdapter {
       }
       html = await res.text();
     } catch (err) {
-      return { error: `HtmlAdapter: fetch error – ${(err as Error).message}` };
+      return { error: `HtmlAdapter: fetch error â€“ ${(err as Error).message}` };
     }
 
     const $ = cheerio.load(html);
@@ -43,11 +43,11 @@ export class HtmlAdapter extends BaseAdapter {
 
     if (cfg.slotsSelector) {
       $(cfg.slotsSelector).each((_i, el) => {
-        // ── IMPLEMENTACJA SPECYFICZNA DLA ŹRÓDŁA ──
-        // Tutaj należy wyciągnąć datę, startTime, endTime, available
+        // â”€â”€ IMPLEMENTACJA SPECYFICZNA DLA ĹąRĂ“DĹA â”€â”€
+        // Tutaj naleĹĽy wyciÄ…gnÄ…Ä‡ datÄ™, startTime, endTime, available
         // ze struktury HTML konkretnej strony RCKiK.
         //
-        // Przykład (do nadpisania):
+        // PrzykĹ‚ad (do nadpisania):
         const dateText = $(el).attr("data-date") ?? $(el).find(".date").text().trim();
         const timeText = $(el).attr("data-time") ?? $(el).find(".time").text().trim();
         if (!dateText || !timeText) return;
@@ -69,3 +69,4 @@ export class HtmlAdapter extends BaseAdapter {
     };
   }
 }
+
