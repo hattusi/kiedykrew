@@ -7,6 +7,8 @@ import { scoreStation, sortByScore } from "@/lib/scoring";
 import type { BloodType, DonationType } from "@prisma/client";
 import type { StationWithDemands } from "@/types";
 
+export const dynamic = "force-dynamic";
+
 interface PageProps {
   searchParams: {
     q?: string;

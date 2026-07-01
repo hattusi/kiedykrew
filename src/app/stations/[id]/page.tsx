@@ -6,6 +6,8 @@ import { OpeningHoursTable } from "@/components/stations/OpeningHoursTable";
 import { DONATION_TYPE_LABELS } from "@/lib/utils";
 import type { OpeningHours } from "@/types";
 
+export const dynamic = "force-dynamic";
+
 export async function generateMetadata({ params }: { params: { id: string } }) {
   const s = await prisma.station.findUnique({ where: { id: params.id }, select: { name: true, city: true } });
   if (!s) return {};

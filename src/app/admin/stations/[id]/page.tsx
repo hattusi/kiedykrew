@@ -3,6 +3,8 @@ import { prisma } from "@/lib/prisma";
 import { StationForm } from "@/components/admin/StationForm";
 import { SourcesManager } from "@/components/admin/SourcesManager";
 
+export const dynamic = "force-dynamic";
+
 export default async function EditStationPage({ params }: { params: { id: string } }) {
   const station = await prisma.station.findUnique({
     where: { id: params.id },

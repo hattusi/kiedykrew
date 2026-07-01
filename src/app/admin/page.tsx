@@ -1,5 +1,7 @@
 import { prisma } from "@/lib/prisma";
 
+export const dynamic = "force-dynamic";
+
 export default async function AdminDashboard() {
   const [stationCount, sourceCount, slotCount, logCount, recentLogs] = await Promise.all([
     prisma.station.count(),

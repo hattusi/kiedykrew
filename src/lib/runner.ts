@@ -1,6 +1,6 @@
 import { prisma } from "@/lib/prisma";
 import { getAdapter } from "@/lib/adapters/registry";
-import type { LogStatus } from "@prisma/client";
+import { Prisma, type LogStatus } from "@prisma/client";
 
 interface RunResult {
   ok: number;
@@ -120,6 +120,12 @@ async function logRun(
   duration: number,
 ) {
   await prisma.log.create({
-    data: { sourceId, status, message, details, duration },
+    data: {
+      sourceId,
+      status,
+      message,
+      details: (details ?? Prisma.JsonNull) as Prisma.InputJsonValue,
+      duration,
+    },
   });
 }

@@ -1,6 +1,8 @@
 import { prisma } from "@/lib/prisma";
 import { StationCard } from "@/components/stations/StationCard";
 
+export const dynamic = "force-dynamic";
+
 export const metadata = { title: "Katalog punktów – KiedyKrew" };
 
 export default async function StationsPage() {
