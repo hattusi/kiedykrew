@@ -1,13 +1,13 @@
-﻿/**
- * BloodDemandAdapter â€“ szkielet adaptera dla stron z zapotrzebowaniem na krew.
+/**
+ * BloodDemandAdapter – szkielet adaptera dla stron z zapotrzebowaniem na krew.
  *
- * Wiele RCKiK publikuje tabelÄ™ zapotrzebowania na krew na swojej stronie WWW.
+ * Wiele RCKiK publikuje tabelę zapotrzebowania na krew na swojej stronie WWW.
  * Ten adapter wyspecjalizowany jest w parsowaniu tej tabeli.
  *
  * Config shape (BloodDemandAdapterConfig):
- *   url         â€“ strona z tabelÄ… zapotrzebowania
- *   selector    â€“ CSS selektor tabeli / wierszy (opcjonalny)
- *   stationCode â€“ identyfikator stacji w systemie zewnÄ™trznym (opcjonalny)
+ *   url         – strona z tabelą zapotrzebowania
+ *   selector    – CSS selektor tabeli / wierszy (opcjonalny)
+ *   stationCode – identyfikator stacji w systemie zewnętrznym (opcjonalny)
  */
 import * as cheerio from "cheerio";
 import { BaseAdapter, type AdapterResult, type BloodDemandData } from "./base";
@@ -23,10 +23,10 @@ const BLOOD_TYPE_MAP: Record<string, BloodType> = {
 
 const LEVEL_KEYWORDS: Array<[string[], DemandLevel]> = [
   [["pilnie", "krytycz", "critical", "urgent"], "CRITICAL"],
-  [["nisk", "brak", "niedobĂłr", "low"], "LOW"],
+  [["nisk", "brak", "niedobór", "low"], "LOW"],
   [["normal", "normalne", "standard"], "NORMAL"],
   [["wysok", "high", "potrzeb"], "HIGH"],
-  [["nadmiar", "surplus", "duĹĽo", "excess"], "SURPLUS"],
+  [["nadmiar", "surplus", "dużo", "excess"], "SURPLUS"],
 ];
 
 function guessLevel(text: string): DemandLevel {

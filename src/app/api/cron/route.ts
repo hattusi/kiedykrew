@@ -1,4 +1,4 @@
-﻿import { NextRequest, NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { runAllSources } from "@/lib/runner";
 
 // POST /api/cron - Wyzwala uruchomienie wszystkich adapterow.

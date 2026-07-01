@@ -1,11 +1,11 @@
-﻿/**
- * JsonAdapter â€“ szkielet adaptera dla stacji udostÄ™pniajÄ…cych JSON API.
+/**
+ * JsonAdapter – szkielet adaptera dla stacji udostępniających JSON API.
  *
  * Config shape (JsonAdapterConfig):
- *   url            â€“ endpoint JSON
- *   headers        â€“ opcjonalne nagĹ‚Ăłwki (np. Authorization)
- *   slotsPath      â€“ klucz w obiekcie JSON zawierajÄ…cy tablicÄ™ slotĂłw
- *   bloodDemandsPath â€“ klucz w obiekcie JSON zawierajÄ…cy zapotrzebowanie
+ *   url            – endpoint JSON
+ *   headers        – opcjonalne nagłówki (np. Authorization)
+ *   slotsPath      – klucz w obiekcie JSON zawierający tablicę slotów
+ *   bloodDemandsPath – klucz w obiekcie JSON zawierający zapotrzebowanie
  */
 import { BaseAdapter, type AdapterResult, type SlotData, type BloodDemandData } from "./base";
 import type { JsonAdapterConfig } from "@/types";
@@ -40,7 +40,7 @@ export class JsonAdapter extends BaseAdapter {
     const slots: SlotData[] = [];
     const bloodDemands: BloodDemandData[] = [];
 
-    // â”€â”€ Parse slots â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+    // ── Parse slots ───────────────────────────────────────────────────────────
     if (cfg.slotsPath && data && typeof data === "object") {
       const rawSlots = getPath(data as Record<string, unknown>, cfg.slotsPath);
       if (Array.isArray(rawSlots)) {
@@ -57,7 +57,7 @@ export class JsonAdapter extends BaseAdapter {
       }
     }
 
-    // â”€â”€ Parse blood demands â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+    // ── Parse blood demands ───────────────────────────────────────────────────
     if (cfg.bloodDemandsPath && data && typeof data === "object") {
       const rawDemands = getPath(data as Record<string, unknown>, cfg.bloodDemandsPath);
       if (Array.isArray(rawDemands)) {

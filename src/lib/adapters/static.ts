@@ -1,4 +1,4 @@
-﻿import { BaseAdapter, type AdapterResult } from "./base";
+import { BaseAdapter, type AdapterResult } from "./base";
 import type { StaticAdapterConfig } from "@/types";
 
 export class StaticAdapter extends BaseAdapter {

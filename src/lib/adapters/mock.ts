@@ -1,4 +1,4 @@
-﻿import type { DonationType } from "@prisma/client";
+import type { DonationType } from "@prisma/client";
 import { addDays } from "@/lib/utils";
 import { BaseAdapter, type AdapterResult, type SlotData } from "./base";
 import type { MockAdapterConfig } from "@/types";
